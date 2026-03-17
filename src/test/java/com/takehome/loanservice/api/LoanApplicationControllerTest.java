@@ -1,6 +1,7 @@
 package com.takehome.loanservice.api;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.hamcrest.Matchers.containsString;
 import static org.hamcrest.Matchers.nullValue;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
@@ -132,5 +133,22 @@ class LoanApplicationControllerTest {
 				.andExpect(content().string(containsString("loan.tenureMonths: tenureMonths must be between 6 and 360")));
 
 		assertThat(loanApplicationAuditRepository.count()).isZero();
+	}
+
+	@Test
+	void shouldReturnNotFoundForUnknownRoute() throws Exception {
+		mockMvc.perform(get("/application"))
+				.andExpect(status().isNotFound())
+				.andExpect(jsonPath("$.status").value(404))
+				.andExpect(jsonPath("$.message").value("Resource not found"));
+	}
+
+	@Test
+	void shouldReturnMethodNotAllowedForGetApplications() throws Exception {
+		mockMvc.perform(get("/applications"))
+				.andExpect(status().isMethodNotAllowed())
+				.andExpect(jsonPath("$.status").value(405))
+				.andExpect(jsonPath("$.message").value("Method not allowed"))
+				.andExpect(content().string(containsString("Supported methods: POST")));
 	}
 }

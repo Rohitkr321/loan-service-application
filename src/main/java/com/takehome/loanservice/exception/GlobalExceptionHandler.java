@@ -11,9 +11,11 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.http.converter.HttpMessageNotReadableException;
 import org.springframework.validation.FieldError;
+import org.springframework.web.HttpRequestMethodNotSupportedException;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
+import org.springframework.web.servlet.resource.NoResourceFoundException;
 import tools.jackson.databind.exc.InvalidFormatException;
 
 @RestControllerAdvice
@@ -43,6 +45,34 @@ public class GlobalExceptionHandler {
 	@ExceptionHandler(IllegalArgumentException.class)
 	public ResponseEntity<ErrorResponse> handleIllegalArgument(IllegalArgumentException ex) {
 		return badRequest("Validation failed", List.of(ex.getMessage()));
+	}
+
+	@ExceptionHandler(NoResourceFoundException.class)
+	public ResponseEntity<ErrorResponse> handleResourceNotFound(NoResourceFoundException ex) {
+		ErrorResponse response = new ErrorResponse(
+				OffsetDateTime.now(ZoneOffset.UTC),
+				HttpStatus.NOT_FOUND.value(),
+				HttpStatus.NOT_FOUND.getReasonPhrase(),
+				"Resource not found",
+				List.of(ex.getMessage()));
+		return ResponseEntity.status(HttpStatus.NOT_FOUND).body(response);
+	}
+
+	@ExceptionHandler(HttpRequestMethodNotSupportedException.class)
+	public ResponseEntity<ErrorResponse> handleMethodNotSupported(HttpRequestMethodNotSupportedException ex) {
+		String supportedMethods = ex.getSupportedHttpMethods() == null || ex.getSupportedHttpMethods().isEmpty()
+				? "No supported methods reported"
+				: ex.getSupportedHttpMethods().stream()
+						.map(Object::toString)
+						.collect(Collectors.joining(", "));
+
+		ErrorResponse response = new ErrorResponse(
+				OffsetDateTime.now(ZoneOffset.UTC),
+				HttpStatus.METHOD_NOT_ALLOWED.value(),
+				HttpStatus.METHOD_NOT_ALLOWED.getReasonPhrase(),
+				"Method not allowed",
+				List.of("Supported methods: " + supportedMethods));
+		return ResponseEntity.status(HttpStatus.METHOD_NOT_ALLOWED).body(response);
 	}
 
 	@ExceptionHandler(Exception.class)
