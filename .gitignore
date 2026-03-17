@@ -4,6 +4,13 @@ data/
 .mvn/wrapper/maven-wrapper.jar
 !**/src/main/**/target/
 !**/src/test/**/target/
+*.log
+*.tmp
+*.swp
+*.swo
+Thumbs.db
+.DS_Store
+Desktop.ini
 
 ### STS ###
 .apt_generated
@@ -19,6 +26,7 @@ data/
 *.iws
 *.iml
 *.ipr
+out/
 
 ### NetBeans ###
 /nbproject/private/
@@ -32,3 +40,10 @@ build/
 
 ### VS Code ###
 .vscode/
+
+### Local database files ###
+*.mv.db
+*.trace.db
+
+### Maven ###
+.mvn/timing.properties
