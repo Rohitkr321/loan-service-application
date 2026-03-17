@@ -18,6 +18,9 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.servlet.resource.NoResourceFoundException;
 import tools.jackson.databind.exc.InvalidFormatException;
 
+/**
+ * Centralizes API error responses for validation and parsing failures.
+ */
 @RestControllerAdvice
 public class GlobalExceptionHandler {
 

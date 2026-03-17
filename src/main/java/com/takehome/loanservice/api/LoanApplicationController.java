@@ -11,6 +11,9 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+/**
+ * Exposes the loan application evaluation endpoint.
+ */
 @RestController
 @RequestMapping("/applications")
 public class LoanApplicationController {

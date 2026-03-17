@@ -26,6 +26,9 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
+/**
+ * Persistence model for storing application decisions for audit purposes.
+ */
 @Entity
 @Table(name = "loan_application_audit")
 public class LoanApplicationAuditEntity {

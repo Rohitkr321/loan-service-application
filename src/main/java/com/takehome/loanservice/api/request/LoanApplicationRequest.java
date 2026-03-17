@@ -4,6 +4,9 @@ import com.takehome.loanservice.domain.LoanApplicationCommand;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotNull;
 
+/**
+ * Request payload for submitting a loan application.
+ */
 public record LoanApplicationRequest(
 		@NotNull(message = "applicant is required")
 		@Valid

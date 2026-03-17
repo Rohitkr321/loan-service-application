@@ -14,6 +14,9 @@ import java.math.BigDecimal;
 import java.util.UUID;
 import org.junit.jupiter.api.Test;
 
+/**
+ * Focused business-rule tests for pricing and eligibility decisions.
+ */
 class LoanDecisionEngineTest {
 
 	private final LoanDecisionEngine loanDecisionEngine =

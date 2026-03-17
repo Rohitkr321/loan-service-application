@@ -4,6 +4,9 @@ import java.util.List;
 import java.util.Objects;
 import java.util.UUID;
 
+/**
+ * Immutable decision model used across the service and API layers.
+ */
 public record LoanDecision(
 		UUID applicationId,
 		ApplicationStatus status,

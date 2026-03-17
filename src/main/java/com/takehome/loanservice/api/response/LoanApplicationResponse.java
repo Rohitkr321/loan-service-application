@@ -8,6 +8,9 @@ import com.takehome.loanservice.domain.RiskBand;
 import java.util.List;
 import java.util.UUID;
 
+/**
+ * Public API response returned after an application is evaluated.
+ */
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public record LoanApplicationResponse(
 		UUID applicationId,

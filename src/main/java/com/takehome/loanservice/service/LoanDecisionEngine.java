@@ -13,6 +13,9 @@ import java.util.List;
 import java.util.UUID;
 import org.springframework.stereotype.Service;
 
+/**
+ * Applies validation-independent business rules to produce a single decision.
+ */
 @Service
 public class LoanDecisionEngine {
 
