@@ -61,25 +61,25 @@ public class LoanDecisionEngine {
 
 		RiskBand riskBand = riskBandClassifier.classify(command.applicant().creditScore());
 		BigDecimal interestRate = calculateFinalInterestRate(command, riskBand);
-		BigDecimal offerEmi = emiCalculator.calculate(
+		BigDecimal finalOfferEmi = emiCalculator.calculate(
 				command.loan().amount(),
 				interestRate,
 				command.loan().tenureMonths());
 
-		if (exceedsIncomeLimit(offerEmi, command.applicant().monthlyIncome(), OFFER_EMI_LIMIT)) {
+		if (exceedsIncomeLimit(finalOfferEmi, command.applicant().monthlyIncome(), OFFER_EMI_LIMIT)) {
 			return LoanDecision.rejected(
 					applicationId,
 					List.of(RejectionReason.EMI_EXCEEDS_50_PERCENT_OFFER_LIMIT));
 		}
 
-		BigDecimal totalPayable = offerEmi
+		BigDecimal totalPayable = finalOfferEmi
 				.multiply(BigDecimal.valueOf(command.loan().tenureMonths()))
 				.setScale(2, RoundingMode.HALF_UP);
 
 		LoanOffer offer = new LoanOffer(
 				interestRate,
 				command.loan().tenureMonths(),
-				offerEmi,
+				finalOfferEmi,
 				totalPayable);
 
 		return LoanDecision.approved(applicationId, riskBand, offer);

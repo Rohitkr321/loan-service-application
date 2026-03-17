@@ -131,7 +131,7 @@ public class LoanApplicationAuditEntity {
 
 	public static LoanApplicationAuditEntity from(
 			LoanApplicationCommand command, LoanDecision decision, Instant createdAt) {
-		LoanOffer offer = decision.offer();
+		LoanOffer loanOffer = decision.offer();
 		return new LoanApplicationAuditEntity(
 				decision.applicationId(),
 				command.applicant().name(),
@@ -144,9 +144,9 @@ public class LoanApplicationAuditEntity {
 				command.loan().purpose(),
 				decision.status(),
 				decision.riskBand(),
-				offer == null ? null : scale(offer.interestRate()),
-				offer == null ? null : scale(offer.emi()),
-				offer == null ? null : scale(offer.totalPayable()),
+				loanOffer == null ? null : scale(loanOffer.interestRate()),
+				loanOffer == null ? null : scale(loanOffer.emi()),
+				loanOffer == null ? null : scale(loanOffer.totalPayable()),
 				createdAt,
 				decision.rejectionReasons());
 	}

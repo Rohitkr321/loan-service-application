@@ -140,7 +140,7 @@ class LoanApplicationControllerTest {
 
 	@Test
 	void shouldReturnBadRequestWhenApplicantObjectIsMissing() throws Exception {
-		String payload = """
+		String requestBody = """
 				{
 				  "loan": {
 				    "amount": 500000,
@@ -152,7 +152,7 @@ class LoanApplicationControllerTest {
 
 		mockMvc.perform(post("/applications")
 						.contentType(MediaType.APPLICATION_JSON)
-						.content(payload))
+						.content(requestBody))
 				.andExpect(status().isBadRequest())
 				.andExpect(jsonPath("$.status").value(400))
 				.andExpect(jsonPath("$.message").value("Validation failed"))
@@ -163,7 +163,7 @@ class LoanApplicationControllerTest {
 
 	@Test
 	void shouldReturnBadRequestForInvalidEnumValue() throws Exception {
-		String payload = """
+		String requestBody = """
 				{
 				  "applicant": {
 				    "name": "Rohit Kumar",
@@ -182,7 +182,7 @@ class LoanApplicationControllerTest {
 
 		mockMvc.perform(post("/applications")
 						.contentType(MediaType.APPLICATION_JSON)
-						.content(payload))
+						.content(requestBody))
 				.andExpect(status().isBadRequest())
 				.andExpect(jsonPath("$.status").value(400))
 				.andExpect(jsonPath("$.message").value("Request body could not be parsed"))

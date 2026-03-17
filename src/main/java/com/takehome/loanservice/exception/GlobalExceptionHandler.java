@@ -52,13 +52,13 @@ public class GlobalExceptionHandler {
 
 	@ExceptionHandler(NoResourceFoundException.class)
 	public ResponseEntity<ErrorResponse> handleResourceNotFound(NoResourceFoundException ex) {
-		ErrorResponse response = new ErrorResponse(
+		ErrorResponse errorResponse = new ErrorResponse(
 				OffsetDateTime.now(ZoneOffset.UTC),
 				HttpStatus.NOT_FOUND.value(),
 				HttpStatus.NOT_FOUND.getReasonPhrase(),
 				"Resource not found",
 				List.of(ex.getMessage()));
-		return ResponseEntity.status(HttpStatus.NOT_FOUND).body(response);
+		return ResponseEntity.status(HttpStatus.NOT_FOUND).body(errorResponse);
 	}
 
 	@ExceptionHandler(HttpRequestMethodNotSupportedException.class)
@@ -69,34 +69,34 @@ public class GlobalExceptionHandler {
 						.map(Object::toString)
 						.collect(Collectors.joining(", "));
 
-		ErrorResponse response = new ErrorResponse(
+		ErrorResponse errorResponse = new ErrorResponse(
 				OffsetDateTime.now(ZoneOffset.UTC),
 				HttpStatus.METHOD_NOT_ALLOWED.value(),
 				HttpStatus.METHOD_NOT_ALLOWED.getReasonPhrase(),
 				"Method not allowed",
 				List.of("Supported methods: " + supportedMethods));
-		return ResponseEntity.status(HttpStatus.METHOD_NOT_ALLOWED).body(response);
+		return ResponseEntity.status(HttpStatus.METHOD_NOT_ALLOWED).body(errorResponse);
 	}
 
 	@ExceptionHandler(Exception.class)
 	public ResponseEntity<ErrorResponse> handleUnexpected(Exception ex) {
-		ErrorResponse response = new ErrorResponse(
+		ErrorResponse errorResponse = new ErrorResponse(
 				OffsetDateTime.now(ZoneOffset.UTC),
 				HttpStatus.INTERNAL_SERVER_ERROR.value(),
 				HttpStatus.INTERNAL_SERVER_ERROR.getReasonPhrase(),
 				"Unexpected server error",
 				List.of());
-		return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(response);
+		return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(errorResponse);
 	}
 
 	private ResponseEntity<ErrorResponse> badRequest(String message, List<String> details) {
-		ErrorResponse response = new ErrorResponse(
+		ErrorResponse errorResponse = new ErrorResponse(
 				OffsetDateTime.now(ZoneOffset.UTC),
 				HttpStatus.BAD_REQUEST.value(),
 				HttpStatus.BAD_REQUEST.getReasonPhrase(),
 				message,
 				details);
-		return ResponseEntity.badRequest().body(response);
+		return ResponseEntity.badRequest().body(errorResponse);
 	}
 
 	private String formatFieldError(FieldError error) {

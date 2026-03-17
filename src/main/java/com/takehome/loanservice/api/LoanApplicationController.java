@@ -27,7 +27,7 @@ public class LoanApplicationController {
 	@PostMapping
 	public ResponseEntity<LoanApplicationResponse> createApplication(
 			@Valid @RequestBody LoanApplicationRequest request) {
-		LoanDecision decision = loanApplicationService.createApplication(request.toDomain());
-		return ResponseEntity.ok(LoanApplicationResponse.from(decision));
+		LoanDecision loanDecision = loanApplicationService.createApplication(request.toDomain());
+		return ResponseEntity.ok(LoanApplicationResponse.from(loanDecision));
 	}
 }

@@ -16,6 +16,8 @@ public record LoanApplicationRequest(
 		LoanRequest loan) {
 
 	public LoanApplicationCommand toDomain() {
-		return new LoanApplicationCommand(applicant.toDomain(), loan.toDomain());
+		return new LoanApplicationCommand(
+				applicant.toDomain(),
+				loan.toDomain());
 	}
 }

@@ -20,12 +20,12 @@ public record LoanApplicationResponse(
 		LoanOfferResponse offer,
 		List<RejectionReason> rejectionReasons) {
 
-	public static LoanApplicationResponse from(LoanDecision decision) {
+	public static LoanApplicationResponse from(LoanDecision loanDecision) {
 		return new LoanApplicationResponse(
-				decision.applicationId(),
-				decision.status(),
-				decision.riskBand(),
-				decision.offer() == null ? null : LoanOfferResponse.from(decision.offer()),
-				decision.rejectionReasons().isEmpty() ? null : decision.rejectionReasons());
+				loanDecision.applicationId(),
+				loanDecision.status(),
+				loanDecision.riskBand(),
+				loanDecision.offer() == null ? null : LoanOfferResponse.from(loanDecision.offer()),
+				loanDecision.rejectionReasons().isEmpty() ? null : loanDecision.rejectionReasons());
 	}
 }

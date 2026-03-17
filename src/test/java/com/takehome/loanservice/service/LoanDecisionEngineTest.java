@@ -28,11 +28,11 @@ class LoanDecisionEngineTest {
 				new ApplicantProfile("Amit", 30, new BigDecimal("50000.00"), EmploymentType.SALARIED, 599),
 				new RequestedLoan(new BigDecimal("300000.00"), 24, LoanPurpose.AUTO));
 
-		var decision = loanDecisionEngine.evaluate(UUID.randomUUID(), command);
+		var loanDecision = loanDecisionEngine.evaluate(UUID.randomUUID(), command);
 
-		assertThat(decision.status()).isEqualTo(ApplicationStatus.REJECTED);
-		assertThat(decision.riskBand()).isNull();
-		assertThat(decision.rejectionReasons()).containsExactly(RejectionReason.CREDIT_SCORE_BELOW_600);
+		assertThat(loanDecision.status()).isEqualTo(ApplicationStatus.REJECTED);
+		assertThat(loanDecision.riskBand()).isNull();
+		assertThat(loanDecision.rejectionReasons()).containsExactly(RejectionReason.CREDIT_SCORE_BELOW_600);
 	}
 
 	@Test
@@ -41,10 +41,10 @@ class LoanDecisionEngineTest {
 				new ApplicantProfile("Amit", 60, new BigDecimal("120000.00"), EmploymentType.SALARIED, 780),
 				new RequestedLoan(new BigDecimal("500000.00"), 72, LoanPurpose.HOME));
 
-		var decision = loanDecisionEngine.evaluate(UUID.randomUUID(), command);
+		var loanDecision = loanDecisionEngine.evaluate(UUID.randomUUID(), command);
 
-		assertThat(decision.status()).isEqualTo(ApplicationStatus.REJECTED);
-		assertThat(decision.rejectionReasons()).containsExactly(RejectionReason.AGE_TENURE_LIMIT_EXCEEDED);
+		assertThat(loanDecision.status()).isEqualTo(ApplicationStatus.REJECTED);
+		assertThat(loanDecision.rejectionReasons()).containsExactly(RejectionReason.AGE_TENURE_LIMIT_EXCEEDED);
 	}
 
 	@Test

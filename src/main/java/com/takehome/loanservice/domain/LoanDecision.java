@@ -44,7 +44,7 @@ public record LoanDecision(
 		return new LoanDecision(applicationId, ApplicationStatus.APPROVED, riskBand, offer, List.of());
 	}
 
-	public static LoanDecision rejected(UUID applicationId, List<RejectionReason> rejectionReasons) {
-		return new LoanDecision(applicationId, ApplicationStatus.REJECTED, null, null, rejectionReasons);
+	public static LoanDecision rejected(UUID applicationId, List<RejectionReason> reasons) {
+		return new LoanDecision(applicationId, ApplicationStatus.REJECTED, null, null, reasons);
 	}
 }
