@@ -136,6 +136,60 @@ class LoanApplicationControllerTest {
 	}
 
 	@Test
+	void shouldReturnBadRequestWhenApplicantObjectIsMissing() throws Exception {
+		String payload = """
+				{
+				  "loan": {
+				    "amount": 500000,
+				    "tenureMonths": 36,
+				    "purpose": "PERSONAL"
+				  }
+				}
+				""";
+
+		mockMvc.perform(post("/applications")
+						.contentType(MediaType.APPLICATION_JSON)
+						.content(payload))
+				.andExpect(status().isBadRequest())
+				.andExpect(jsonPath("$.status").value(400))
+				.andExpect(jsonPath("$.message").value("Validation failed"))
+				.andExpect(content().string(containsString("applicant: applicant is required")));
+
+		assertThat(loanApplicationAuditRepository.count()).isZero();
+	}
+
+	@Test
+	void shouldReturnBadRequestForInvalidEnumValue() throws Exception {
+		String payload = """
+				{
+				  "applicant": {
+				    "name": "Rohit Kumar",
+				    "age": 30,
+				    "monthlyIncome": 50000,
+				    "employmentType": "CONTRACTOR",
+				    "creditScore": 720
+				  },
+				  "loan": {
+				    "amount": 500000,
+				    "tenureMonths": 36,
+				    "purpose": "PERSONAL"
+				  }
+				}
+				""";
+
+		mockMvc.perform(post("/applications")
+						.contentType(MediaType.APPLICATION_JSON)
+						.content(payload))
+				.andExpect(status().isBadRequest())
+				.andExpect(jsonPath("$.status").value(400))
+				.andExpect(jsonPath("$.message").value("Request body could not be parsed"))
+				.andExpect(content().string(containsString("Invalid value 'CONTRACTOR'")))
+				.andExpect(content().string(containsString("Accepted values: SALARIED, SELF_EMPLOYED")));
+
+		assertThat(loanApplicationAuditRepository.count()).isZero();
+	}
+
+	@Test
 	void shouldReturnNotFoundForUnknownRoute() throws Exception {
 		mockMvc.perform(get("/application"))
 				.andExpect(status().isNotFound())
